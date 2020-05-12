@@ -107,29 +107,56 @@ public class AppTest
 //.............reply function using swipe action.............
     public void replyAction() throws InterruptedException
     {
-    	(new TouchAction(driver))
-  	  	.press(PointOption.point(221,1525))
+    	
+  	  	/*.press(PointOption.point(221,1525))
   	  	.moveTo(PointOption.point(697,1521))
   	  	.release()
-  	  	.perform();
-  	  	MobileElement reply = (MobileElement) driver.findElementByAccessibilityId("Reply");
+  	  	.perform();*/
+    	MobileElement message = (MobileElement) driver.findElementByXPath("//android.widget.FrameLayout[3]/android.view.ViewGroup");
+  	  	Thread.sleep(2000);
+    	MobileElement reply = (MobileElement) driver.findElementByAccessibilityId("Reply");
   	  	reply.click();
   	  	sendMessage("Reply message");
     }
+    
+    
 //................CM functionalities................
-    @Test
+    @SuppressWarnings("unlikely-arg-type")
+	@Test
     public void CM() throws InterruptedException
     {
+    	Thread.sleep(3000);
+    	MobileElement title = (MobileElement) driver.findElementById("com.freshworks.freshconnect.staging:id/toolbarTitle");
+    	if(title.getText().equals("Team Messages"))
+    	{
+    		System.out.println("TM header is correct");
+    	}
+    	else
+    	{
+    		driver.quit();
+    	}
     	MobileElement Ham_burger = (MobileElement) driver.findElementByAccessibilityId("Navigate up");
     	Ham_burger.click();
+    	Thread.sleep(1000);
     	
     	MobileElement Ham_cm = (MobileElement) driver.findElementByXPath("//android.widget.CheckedTextView[contains(@text,\"Contextual Discussions\")]");
     	Ham_cm.click();
     	Thread.sleep(10000);
     	
-    	MobileElement first_ticket = (MobileElement) driver.findElementByXPath("//android.widget.FrameLayout[1]/android.view.ViewGroup[2]");
-    	first_ticket.click();
-    	Thread.sleep(5000);
+    	if(title.getText().equals("Contextual Discussions"))
+    	{
+    		System.out.println("CM header is correct");
+    	}
+    	else
+    	{
+    		driver.quit();
+    	}
+    	
+    	
+//    	MobileElement first_ticket = (MobileElement) driver.findElementByXPath("//android.widget.FrameLayout[1]/android.view.ViewGroup[2]");
+//    	first_ticket.click();
+//    	Thread.sleep(5000);
+    	
     	
 //    	MobileElement ticket = (MobileElement) driver.findElementByXPath("//android.view.ViewGroup[1]/android.widget.TextView[1][contains(@text,\"Timestamp check ticket\")]");
 //    	ticket.click();
