@@ -1,9 +1,12 @@
 package com.sampletest.test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.time.Duration;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -11,6 +14,7 @@ import org.testng.annotations.Test;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 
 public class AppTest 
@@ -120,21 +124,39 @@ public class AppTest
     }
     
     
-//................CM functionalities................
-    @SuppressWarnings("unlikely-arg-type")
+    public void swipeToTicketDetailsPage()
+    {
+    	MobileElement title = (MobileElement) driver.findElementById("com.freshworks.freshconnect.staging:id/toolbarTitleTextView");
+		String discussion_title = title.getText();
+    	Dimension size = driver.manage().window().getSize();
+		int startx = (int) (size.width * 0.8);
+		int endx = (int) (size.width * 0.05);
+		int starty = size.height / 2;
+		new TouchAction<>(driver).press(PointOption.point(startx, starty))
+				.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1))).moveTo(PointOption.point(endx, starty))
+				.release().perform();
+		System.out.println("Swipe action is done");
+		String td_title = title.getText();
+		if(discussion_title.equals(td_title))
+			System.out.println("Titles are same");
+		
+    }
+    
+    
+//................CM functionalities................  
 	@Test
     public void CM() throws InterruptedException
     {
     	Thread.sleep(3000);
-    	MobileElement title = (MobileElement) driver.findElementById("com.freshworks.freshconnect.staging:id/toolbarTitle");
-    	if(title.getText().equals("Team Messages"))
-    	{
-    		System.out.println("TM header is correct");
-    	}
-    	else
-    	{
-    		driver.quit();
-    	}
+    	//MobileElement title = (MobileElement) driver.findElementById("com.freshworks.freshconnect.staging:id/toolbarTitle");
+//    	if(title.getText().equals("Team Messages"))
+//    	{
+//    		System.out.println("TM header is correct");
+//    	}
+//    	else
+//    	{
+//    		driver.quit();
+//    	}
     	MobileElement Ham_burger = (MobileElement) driver.findElementByAccessibilityId("Navigate up");
     	Ham_burger.click();
     	Thread.sleep(1000);
@@ -143,19 +165,20 @@ public class AppTest
     	Ham_cm.click();
     	Thread.sleep(10000);
     	
-    	if(title.getText().equals("Contextual Discussions"))
-    	{
-    		System.out.println("CM header is correct");
-    	}
-    	else
-    	{
-    		driver.quit();
-    	}
+//    	if(title.getText().equals("Contextual Discussions"))
+//    	{
+//    		System.out.println("CM header is correct");
+//    	}
+//    	else
+//    	{
+//    		driver.quit();
+//    	}
     	
     	
-//    	MobileElement first_ticket = (MobileElement) driver.findElementByXPath("//android.widget.FrameLayout[1]/android.view.ViewGroup[2]");
-//    	first_ticket.click();
-//    	Thread.sleep(5000);
+    	MobileElement first_ticket = (MobileElement) driver.findElementByXPath("//android.widget.FrameLayout[1]/android.view.ViewGroup[2]");
+    	first_ticket.click();
+    	Thread.sleep(5000);
+    	cmMoreOptions("Members");
     	
     	
 //    	MobileElement ticket = (MobileElement) driver.findElementByXPath("//android.view.ViewGroup[1]/android.widget.TextView[1][contains(@text,\"Timestamp check ticket\")]");
